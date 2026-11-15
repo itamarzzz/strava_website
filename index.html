@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strava | Running, Cycling & Hiking App - Train, Track & Share</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Top Navigation -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <a href="#top" class="brand" aria-label="Strava Home">STRAVA</a>
+        <div class="search-box">
+          <span class="search-icon">⌕</span>
+          <input type="text" id="searchInput" placeholder="Search activities or athletes..." autocomplete="off" />
+        </div>
+        <nav class="nav-links" id="navFilters">
+          <button class="nav-tab active" data-filter="ALL">Dashboard</button>
+          <button class="nav-tab" data-filter="Run">Runs</button>
+          <button class="nav-tab" data-filter="Ride">Rides</button>
+          <button class="nav-tab" data-filter="Strength">Training</button>
+        </nav>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-orange" id="openModalBtn">+ Log Activity</button>
+        <div class="user-pill" title="Athlete Profile">
+          <span class="avatar sm">IZ</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main 3-Column Strava Web Layout -->
+  <main class="layout" id="top">
+    <!-- Left Column: Athlete Profile & Weekly Goal -->
+    <aside class="sidebar-left">
+      <div class="card profile-card">
+        <div class="profile-avatar-wrap">
+          <div class="avatar lg">IZ</div>
+        </div>
+        <h2 class="athlete-name">Itamar Zehavy</h2>
+        <p class="athlete-loc">Haifa, Israel • Runner & Hybrid Athlete</p>
+        <div class="profile-stats">
+          <div>
+            <span>Following</span>
+            <strong>48</strong>
+          </div>
+          <div>
+            <span>Followers</span>
+            <strong>62</strong>
+          </div>
+          <div>
+            <span>Activities</span>
+            <strong id="totalActivitiesCount">4</strong>
+          </div>
+        </div>
+        <div class="latest-activity-box">
+          <span class="muted-label">LATEST ACTIVITY</span>
+          <p id="latestActivitySummary"><strong>Morning Tempo Run</strong> • Today</p>
+        </div>
+      </div>
+
+      <div class="card goal-card">
+        <div class="card-header-row">
+          <h3>Weekly Run Goal</h3>
+          <span class="badge-orange">RUN</span>
+        </div>
+        <div class="goal-numbers">
+          <strong id="weeklyKmText">35.4 km</strong>
+          <span>/ 40.0 km</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="weeklyProgressBar" style="width: 88.5%"></div>
+        </div>
+        <p class="goal-subtext" id="goalRemainingText">4.6 km remaining to hit your weekly target</p>
+      </div>
+    </aside>
+
+    <!-- Center Column: Activity Feed -->
+    <section class="feed-column">
+      <div class="feed-controls">
+        <div class="filter-pills" id="sportPills">
+          <button class="pill active" data-filter="ALL">Following Feed</button>
+          <button class="pill" data-filter="Run">🏃 Runs</button>
+          <button class="pill" data-filter="Ride">🚴 Rides</button>
+          <button class="pill" data-filter="Strength">🏋️ Strength</button>
+        </div>
+        <span class="feed-count" id="feedCountLabel">Showing 4 activities</span>
+      </div>
+
+      <div id="activityFeed" class="feed-list"></div>
+    </section>
+
+    <!-- Right Column: Challenges, Clubs & Segment Leaderboard -->
+    <aside class="sidebar-right">
+      <div class="card side-widget">
+        <div class="widget-title">
+          <span class="trophy-icon">🏆</span>
+          <div>
+            <h4>November 10K Challenge</h4>
+            <p>Run a 10K effort this month to earn your digital finisher badge.</p>
+          </div>
+        </div>
+        <button class="btn-outline full" id="joinChallengeBtn">Join Challenge</button>
+      </div>
+
+      <div class="card side-widget">
+        <h4>Local Segment Leaderboard</h4>
+        <p class="muted-small">Carmel Beach Promenade (5.0 km Flat)</p>
+        <ul class="leaderboard-list">
+          <li>
+            <span class="rank crown">👑</span>
+            <span class="lb-name">Itamar Zehavy</span>
+            <span class="lb-pace">4:38 /km</span>
+          </li>
+          <li>
+            <span class="rank">2</span>
+            <span class="lb-name">Eitan Zehavy</span>
+            <span class="lb-pace">4:46 /km</span>
+          </li>
+          <li>
+            <span class="rank">3</span>
+            <span class="lb-name">Noa Ben-David</span>
+            <span class="lb-pace">4:54 /km</span>
+          </li>
+          <li>
+            <span class="rank">4</span>
+            <span class="lb-name">Daniel Cohen</span>
+            <span class="lb-pace">5:09 /km</span>
+          </li>
+        </ul>
+      </div>
+
+      <footer class="mini-footer">
+        <p>Educational UI Clone inspired by Strava • Built with HTML, CSS & JS</p>
+      </footer>
+    </aside>
+  </main>
+
+  <!-- Log Activity Modal -->
+  <div class="modal-backdrop" id="activityModal" hidden>
+    <div class="modal-box" role="dialog" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <h3 id="modalTitle">Manual Entry — Log an Activity</h3>
+        <button class="close-btn" id="closeModalBtn" aria-label="Close">✕</button>
+      </div>
+      <form id="activityForm" class="modal-form">
+        <div class="form-row two-col">
+          <label>
+            Sport Type
+            <select id="sportInput" required>
+              <option value="Run">Run</option>
+              <option value="Ride">Ride</option>
+              <option value="Strength">Strength Training</option>
+            </select>
+          </label>
+          <label>
+            Distance (km)
+            <input type="number" id="distanceInput" step="0.1" min="0" value="8.5" required />
+          </label>
+        </div>
+        <div class="form-row two-col">
+          <label>
+            Duration (minutes)
+            <input type="number" id="durationInput" min="1" value="41" required />
+          </label>
+          <label>
+            Elevation Gain (m)
+            <input type="number" id="elevationInput" min="0" value="65" required />
+          </label>
+        </div>
+        <label>
+          Activity Title
+          <input type="text" id="titleInput" placeholder="e.g., Sunset Coastal Tempo Run" required />
+        </label>
+        <label>
+          Description / Gear Notes
+          <textarea id="descInput" rows="2" placeholder="How did the session feel?"></textarea>
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="btn-outline" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="btn-orange">Save Activity</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
